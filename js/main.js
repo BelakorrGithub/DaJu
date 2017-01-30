@@ -61,6 +61,12 @@ $(function() {
         $.each(players, function(i, player) {
             context.beginPath();
             context.rect(player.pos.x, player.pos.y, width, length);
+            context.fillStyle = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+            context.fill();
+            context.shadowColor = '#999';
+            context.shadowBlur = 10;
+            context.shadowOffsetX = 5;
+            context.shadowOffsetY = 5;
             context.stroke();
             context.closePath();
         });
