@@ -1,9 +1,3 @@
-
-/**
- * Canvas
- */
-
-.board {
-
-  border: 1px solid black;
+#game_board {
+	border: 1px solid black;
 }
