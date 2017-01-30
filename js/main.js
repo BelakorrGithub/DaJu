@@ -5,7 +5,8 @@ $(function() {
         context = canvas.getContext('2d'),
         url = 'https://daju.herokuapp.com/',
         socket = io(url),
-        myId;
+        myId,
+        playerColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
 
     socket.on('connect', function() {
         myId = socket.id;
@@ -61,6 +62,12 @@ $(function() {
         $.each(players, function(i, player) {
             context.beginPath();
             context.rect(player.pos.x, player.pos.y, width, length);
+            context.fillStyle = playerColor;
+            context.fill();
+            context.shadowColor = '#999';
+            context.shadowBlur = 10;
+            context.shadowOffsetX = 10;
+            context.shadowOffsetY = 10;
             context.stroke();
             context.closePath();
         });
