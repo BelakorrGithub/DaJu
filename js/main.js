@@ -1,7 +1,7 @@
 'use strict';
 
 (function() {
-    var URL = "http://daju.herokuapp.com/";
+    var URL = "https://daju.herokuapp.com/";
 
     var socket = io(URL);
     var canvas = document.getElementById('game_board');
