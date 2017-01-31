@@ -62,8 +62,14 @@ $(function() {
         $.each(players, function(i, player) {
             context.beginPath();
             context.rect(player.pos.x, player.pos.y, width, length);
-            context.fillStyle = playerColor;
-            context.fill();
+            if (player.id === myId) {
+                context.fillStyle = playerColor;
+                context.fill();        
+            } else {
+                context.fillStyle = 'red';
+                context.fill();     
+            }
+
             context.shadowColor = '#999';
             context.shadowBlur = 10;
             context.shadowOffsetX = 10;
