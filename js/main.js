@@ -81,10 +81,6 @@ $(function() {
                 context.fill();
             }
 
-            context.shadowColor = '#999';
-            context.shadowBlur = 10;
-            context.shadowOffsetX = 10;
-            context.shadowOffsetY = 10;
             context.stroke();
             context.closePath();
         });
