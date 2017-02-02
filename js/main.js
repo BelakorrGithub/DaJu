@@ -9,9 +9,9 @@
     var canvas = document.getElementById('game_board');
     var context = canvas.getContext('2d');
 
-    var URL = "https://daju.herokuapp.com/";
+    //var URL = "https://daju.herokuapp.com/";
 
-    //var URL = "http://localhost:3000/";
+    var URL = "http://localhost:3000/";
 
     var socket = io(URL);
     var my_id = null;
