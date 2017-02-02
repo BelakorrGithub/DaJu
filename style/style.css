@@ -1,9 +1,21 @@
+#game_board {
+	border: 1px solid black;
+	box-shadow: 10px 10px 5px #888;
+	background: #e8e8e8;
+}
 
-/**
- * Canvas
- */
+body {
+	text-align: center;
+	background: transparent;
+}
 
-.board {
+html {
+    background: 
+        repeating-linear-gradient(40deg, transparent, transparent 20px, #fff 20px, #999 40px),
+        linear-gradient( to bottom, #fff, #999);
+    height: 100%;
+}
 
-  border: 1px solid black;
+h1 {
+    text-shadow: 2px 2px #f00;
 }
