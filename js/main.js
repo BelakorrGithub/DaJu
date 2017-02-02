@@ -10,7 +10,6 @@ $(function() {
         myId,
         playerColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
 
-
     var keysPressed = {
         "39":false,
         "37":false,
@@ -36,12 +35,9 @@ $(function() {
 
     $(window).keyup(function(event){
         if(event.which === 39 || event.which === 37 || event.which === 38 || event.which === 40) {
-            //movement.vel_x = event.which ===39 ? 20:(event.which ===37 ? 20:0);
             keysPressed[event.which]=false;
-            //socket.emit('moving', movement);
         }
     })
-
 
     $(window).keydown(function(event){
         var movement = {
@@ -49,6 +45,7 @@ $(function() {
                 vel_x: 0,
                 vel_y: 0
             };
+
             // right               left                    up                  down
         if(event.which === 39 || event.which === 37 || event.which === 38 || event.which === 40) {
             keysPressed[event.which]=true;
@@ -57,14 +54,17 @@ $(function() {
     });
 
     function moveSquare(){
-        var movement = {
+        var mov = {
                 socket_id: myId,
                 vel_x: 0,
                 vel_y: 0
         };
-        movement.vel_x = keysPressed['39'] ? (keysPressed['37'] ? 0:5):(keysPressed['37'] ? -5:0);
-        movement.vel_y = keysPressed['38'] ? (keysPressed['40'] ? 0:-5):(keysPressed['40'] ? 5:0);
-        socket.emit('moving', movement);
+
+        if (keysPressed['37']) mov.vel_x+=-5;
+        if (keysPressed['38']) mov.vel_y+=-5;
+        if (keysPressed['39']) mov.vel_x+=+5;
+        if (keysPressed['40']) mov.vel_y+=+5;
+        socket.emit('moving', mov);
     }
 
     function updateSquares(players) {
