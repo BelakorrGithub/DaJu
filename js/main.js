@@ -60,11 +60,14 @@ $(function() {
                 vel_y: 0
         };
 
-        if (keysPressed['37']) mov.vel_x+=-5;
-        if (keysPressed['38']) mov.vel_y+=-5;
-        if (keysPressed['39']) mov.vel_x+=+5;
-        if (keysPressed['40']) mov.vel_y+=+5;
-        socket.emit('moving', mov);
+        if (keysPressed['37']) mov.vel_x+=-1;
+        if (keysPressed['38']) mov.vel_y+=-1;
+        if (keysPressed['39']) mov.vel_x+=+1;
+        if (keysPressed['40']) mov.vel_y+=+1;
+        
+        for (var i=0; i<20; i++) {
+            socket.emit('moving', mov);
+        }
     }
 
     function updateSquares(players) {
