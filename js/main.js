@@ -1,5 +1,6 @@
 'use strict';
 
+
 $(function() {
     var width = 50,
         length = 50,
@@ -9,6 +10,8 @@ $(function() {
         socket = io(url),
         myId,
         playerColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+
+    var listener = new window.keypress.Listener();
 
     var keysPressed = {
         "39":false,
@@ -31,6 +34,114 @@ $(function() {
 
     socket.on('moving', function(players) {
         updateSquares(players);
+    });
+
+    listener.register_combo({
+        "keys"              : "a",
+        "on_keydown"        : function(e) {
+            console.log(e.key);
+            socket.emit('moving', {
+                        socket_id: myId,
+                        vel_x: -5,
+                        vel_y: 0
+                });
+        },
+        "is_sequence"       : true,
+        "is_exclusive"      : true
+    });
+
+    listener.register_combo({
+        "keys"              : "w",
+        "on_keydown"        : function(e) {
+            console.log(e.key);
+            socket.emit('moving', {
+                        socket_id: myId,
+                        vel_x: 0,
+                        vel_y: -5
+                });
+        },
+        "is_sequence"       : true,
+        "is_exclusive"      : true
+    });
+
+    listener.register_combo({
+        "keys"              : "s",
+        "on_keydown"        : function(e) {
+            console.log(e.key);
+            socket.emit('moving', {
+                        socket_id: myId,
+                        vel_x: 0,
+                        vel_y: 5
+                });
+        },
+        "is_sequence"       : true,
+        "is_exclusive"      : true
+    });
+
+    listener.register_combo({
+        "keys"              : "d",
+        "on_keydown"        : function(e) {
+            console.log(e.key);
+            socket.emit('moving', {
+                        socket_id: myId,
+                        vel_x: 5,
+                        vel_y: 0
+                });
+        },
+        "is_sequence"       : true,
+        "is_exclusive"      : true
+    });
+
+    listener.register_combo({
+        "keys"              : "a w",
+        "on_keydown"        : function(e) {
+            console.log(e.key);
+            socket.emit('moving', {
+                        socket_id: myId,
+                        vel_x: -5,
+                        vel_y: -5
+                });
+        },
+        "is_exclusive"      : true
+    });
+
+    listener.register_combo({
+        "keys"              : "w d",
+        "on_keydown"        : function(e) {
+            console.log(e.key);
+            socket.emit('moving', {
+                        socket_id: myId,
+                        vel_x: 5,
+                        vel_y: -5
+                });
+        },
+        "is_exclusive"      : true
+    });
+
+    listener.register_combo({
+        "keys"              : "s d",
+        "on_keydown"        : function(e) {
+            console.log(e.key);
+            socket.emit('moving', {
+                        socket_id: myId,
+                        vel_x: 5,
+                        vel_y: 5
+                });
+        },
+        "is_exclusive"      : true
+    });
+
+    listener.register_combo({
+        "keys"              : "a s",
+        "on_keydown"        : function(e) {
+            console.log(e.key);
+            socket.emit('moving', {
+                        socket_id: myId,
+                        vel_x: -5,
+                        vel_y: 5
+                });
+        },
+        "is_exclusive"      : true
     });
 
     $(window).keyup(function(event){
@@ -65,9 +176,7 @@ $(function() {
         if (keysPressed['39']) mov.vel_x+=+1;
         if (keysPressed['40']) mov.vel_y+=+1;
         
-        for (var i=0; i<20; i++) {
-            socket.emit('moving', mov);
-        }
+        socket.emit('moving', mov);
     }
 
     function updateSquares(players) {
