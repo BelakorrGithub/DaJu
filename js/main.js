@@ -4,197 +4,66 @@
 $(function() {
     var width = 50,
         length = 50,
-        canvas = document.getElementById('game_board'),
-        context = canvas.getContext('2d'),
-        url = 'https://daju.herokuapp.com/',
+        url = 'localhost:3000',
         socket = io(url),
-        myId,
+        myId = 1,
         playerColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-
-    var listener = new window.keypress.Listener();
-
-    var keysPressed = {
-        "39":false,
-        "37":false,
-        "38":false,
-        "49":false,
-    };
 
     socket.on('connect', function() {
         myId = socket.id;
     });
 
     socket.on('new user', function(new_player, players) {
-        updateSquares(players);
+        //updateSquares(players);
     });
 
     socket.on('delete user', function(players) {
-        updateSquares(players);
+        //updateSquares(players);
     });
 
     socket.on('moving', function(players) {
-        updateSquares(players);
+        //updateSquares(players);
     });
 
-    listener.register_combo({
-        "keys"              : "a",
-        "on_keydown"        : function(e) {
-            console.log(e.key);
-            socket.emit('moving', {
-                        socket_id: myId,
-                        vel_x: -5,
-                        vel_y: 0
-                });
-        },
-        "is_sequence"       : true,
-        "is_exclusive"      : true
+    setInterval(movePlayer, 20);
+
+    var keys = {}
+
+    $(document).keydown(function(e) {
+        keys[e.keyCode] = true;
     });
 
-    listener.register_combo({
-        "keys"              : "w",
-        "on_keydown"        : function(e) {
-            console.log(e.key);
-            socket.emit('moving', {
-                        socket_id: myId,
-                        vel_x: 0,
-                        vel_y: -5
-                });
-        },
-        "is_sequence"       : true,
-        "is_exclusive"      : true
+    $(document).keyup(function(e) {
+        delete keys[e.keyCode];
     });
 
-    listener.register_combo({
-        "keys"              : "s",
-        "on_keydown"        : function(e) {
-            console.log(e.key);
-            socket.emit('moving', {
-                        socket_id: myId,
-                        vel_x: 0,
-                        vel_y: 5
-                });
-        },
-        "is_sequence"       : true,
-        "is_exclusive"      : true
-    });
-
-    listener.register_combo({
-        "keys"              : "d",
-        "on_keydown"        : function(e) {
-            console.log(e.key);
-            socket.emit('moving', {
-                        socket_id: myId,
-                        vel_x: 5,
-                        vel_y: 0
-                });
-        },
-        "is_sequence"       : true,
-        "is_exclusive"      : true
-    });
-
-    listener.register_combo({
-        "keys"              : "a w",
-        "on_keydown"        : function(e) {
-            console.log(e.key);
-            socket.emit('moving', {
-                        socket_id: myId,
-                        vel_x: -5,
-                        vel_y: -5
-                });
-        },
-        "is_exclusive"      : true
-    });
-
-    listener.register_combo({
-        "keys"              : "w d",
-        "on_keydown"        : function(e) {
-            console.log(e.key);
-            socket.emit('moving', {
-                        socket_id: myId,
-                        vel_x: 5,
-                        vel_y: -5
-                });
-        },
-        "is_exclusive"      : true
-    });
-
-    listener.register_combo({
-        "keys"              : "s d",
-        "on_keydown"        : function(e) {
-            console.log(e.key);
-            socket.emit('moving', {
-                        socket_id: myId,
-                        vel_x: 5,
-                        vel_y: 5
-                });
-        },
-        "is_exclusive"      : true
-    });
-
-    listener.register_combo({
-        "keys"              : "a s",
-        "on_keydown"        : function(e) {
-            console.log(e.key);
-            socket.emit('moving', {
-                        socket_id: myId,
-                        vel_x: -5,
-                        vel_y: 5
-                });
-        },
-        "is_exclusive"      : true
-    });
-
-    $(window).keyup(function(event){
-        if(event.which === 39 || event.which === 37 || event.which === 38 || event.which === 40) {
-            keysPressed[event.which]=false;
-        }
-    })
-
-    $(window).keydown(function(event){
-        var movement = {
-                socket_id: myId,
-                vel_x: 0,
-                vel_y: 0
-            };
-
-            // right               left                    up                  down
-        if(event.which === 39 || event.which === 37 || event.which === 38 || event.which === 40) {
-            keysPressed[event.which]=true;
-            moveSquare();
-        }
-    });
-
-    function moveSquare(){
-        var mov = {
-                socket_id: myId,
-                vel_x: 0,
-                vel_y: 0
-        };
-
-        if (keysPressed['37']) mov.vel_x+=-1;
-        if (keysPressed['38']) mov.vel_y+=-1;
-        if (keysPressed['39']) mov.vel_x+=+1;
-        if (keysPressed['40']) mov.vel_y+=+1;
-        
-        socket.emit('moving', mov);
-    }
-
-    function updateSquares(players) {
-        context.clearRect(0,0,canvas.width,canvas.height);
-
-        $.each(players, function(i, player) {
-            context.beginPath();
-            context.rect(player.pos.x, player.pos.y, width, length);
-            if (player.id === myId) {
-                context.fillStyle = playerColor;
-                context.fill();
-            } else {
-                context.fillStyle = 'red';
-                context.fill();
+    function movePlayer() {
+        for (var direction in keys) {
+            if (!keys.hasOwnProperty(direction)) continue;
+            if (direction == 37) {
+                if (($("#player").position().left-5) >= 0) {
+                    //socket.emit('moving', {left: "-=5"});
+                    $("#player").animate({left: "-=5"}, 0);                
+                }
             }
-
-            context.stroke();
-            context.closePath();
-        });
+            if (direction == 38) {
+                if (($("#player").position().top-5) >= 0) {
+                    //socket.emit('moving', {top: "-=5"});
+                    $("#player").animate({top: "-=5"}, 0);           
+                }
+            }
+            if (direction == 39) {
+                if (($("#player").position().left+5) <= 450) {
+                    //socket.emit('moving', {left: "+=5"});
+                    $("#player").animate({left: "+=5"}, 0);          
+                }
+            }
+            if (direction == 40) {
+                if (($("#player").position().top+5) <= 450) {
+                    //socket.emit('moving', {top: "+=5"});
+                    $("#player").animate({top: "+=5"}, 0);          
+                }
+            }
+        }
     }
 });

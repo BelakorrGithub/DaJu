@@ -2,6 +2,7 @@
 	border: 1px solid black;
 	box-shadow: 10px 10px 5px #888;
 	background: #e8e8e8;
+	display: none;
 }
 
 body {
@@ -18,4 +19,24 @@ html {
 
 h1 {
     text-shadow: 2px 2px #f00;
+}
+
+#player {
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+#container {
+	border: 1px solid black;
+	box-shadow: 10px 10px 5px #888;
+	background: #fff;
+	height: 502px;
+	width: 502px;
+	position: relative;
+	text-align: center;
+	left:50%;
+    margin-left:-250px; /* -1/2 width */
 }
