@@ -27,6 +27,7 @@ h1 {
     position: absolute;
     top: 0px;
     left: 0px;
+    z-index: 10;
 }
 
 #container {
@@ -36,7 +37,36 @@ h1 {
 	height: 502px;
 	width: 502px;
 	position: relative;
-	text-align: center;
 	left:50%;
     margin-left:-250px; /* -1/2 width */
+}
+
+#toolbar {
+	border: 1px solid black;
+	box-shadow: 10px 10px 5px #888;
+	background: #fff;
+	height: 50px;
+	width: 502px;
+	position: relative;
+	left:50%;
+    margin-left:-250px; /* -1/2 width */
+}
+
+#explosionCD {
+	background-color: #20D40C;
+	height: 48px;
+	width: 20px;
+	display: inline-block;
+	position: absolute;
+	left: 0;
+	margin-bottom: 10px;
+}
+
+#explosionCDImage {
+	height: 40px;
+	width: 40px;
+	position: absolute;
+	left: 25px;
+	top: 5px;
+	display: inline-block;
 }
